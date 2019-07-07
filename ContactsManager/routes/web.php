@@ -10,11 +10,14 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
+Route::redirect('/','/contact');
+
 Route::get('/home', 'HomeController@index')->name('home');
+
+//Contacts
+Route::get('/contact', 'ContactsController@index')->name('contact.index');
+Route::get('/contact/create', 'ContactsController@create')->name('contact.create');
+Route::post('/contact', 'ContactsController@store');
+Route::delete('/contact/{contact}', 'ContactsController@destroy');
