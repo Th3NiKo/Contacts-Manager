@@ -49,5 +49,38 @@ class ContactsController extends Controller
         return redirect('/contact'); 
     }
 
+    public function edit(Contact $contact)
+    {
+        $this->authorize('update', $contact);
+        return view('contacts.edit', compact('contact'));
+    }
+
+    public function update(Contact $contact){
+        $this->authorize('update', $contact);
+
+        $data = request()->validate([
+            'name' => 'required',
+            'category' => '',
+            'email' => '',
+            'phone' => '',
+            'image'=> 'image',
+        ]);
+        
+        if(request('image')) {
+            $imagePath = request('image')->store('profile', 'public');
+            $image = Image::make(public_path("storage/{$imagePath}"))->fit(1200,1200);
+            $image->save();
+
+            $imageArray = ['image' => $imagePath];
+        }
+
+        $contact->update(array_merge(
+            $data,
+            $imageArray ?? []
+        )); 
+        
+        
+        return redirect("/contact");
+    }
 
 }
