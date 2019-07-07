@@ -11,9 +11,6 @@ use App\User;
 class ContactsController extends Controller
 {
     public function index(){
-        if (!Auth::check()) {
-            return view("/login");
-        }
         $user = Auth::user();
         return view("/contacts/index",compact('user'));
     }
@@ -29,26 +26,28 @@ class ContactsController extends Controller
             'category' => '',
             'email' => '',
             'phone' => '',
-            'image'=> ['required','image'],
+            'image'=> 'image',
         ]);
+        if(request('image')) {
+            $imagePath = request('image')->store('uploads', 'public');
+            $image = Image::make(public_path("storage/{$imagePath}"))->fit(1200,1200);
+            $image->save();
 
-        $imagePath = request('image')->store('uploads', 'public');
+            $imageArray = ['image' => $imagePath];
+        }
 
-        $image = Image::make(public_path("storage/{$imagePath}"))->fit(1200,1200);
-        $image->save();
-
-        auth()->user()->contacts()->create([
-            'name' => $data['name'],
-            'category' => $data['category'],
-            'email' => $data['email'],
-            'phone' => $data['phone'],
-            'image' => $imagePath,
-        ]);
+        auth()->user()->contacts()->create(array_merge(
+            $data,
+            $imageArray ?? []
+        ));
 
         return redirect('/contact');
     }
 
     public function destroy(Contact $contact){
         $contact->delete();
+        return redirect('/contact'); 
     }
+
+
 }

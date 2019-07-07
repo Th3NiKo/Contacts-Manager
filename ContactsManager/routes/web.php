@@ -17,7 +17,7 @@ Route::redirect('/','/contact');
 Route::get('/home', 'HomeController@index')->name('home');
 
 //Contacts
-Route::get('/contact', 'ContactsController@index')->name('contact.index');
-Route::get('/contact/create', 'ContactsController@create')->name('contact.create');
-Route::post('/contact', 'ContactsController@store');
-Route::delete('/contact/{contact}', 'ContactsController@destroy');
+Route::get('/contact', 'ContactsController@index')->name('contact.index')->middleware('auth');;
+Route::get('/contact/create', 'ContactsController@create')->name('contact.create')->middleware('auth');;
+Route::post('/contact', 'ContactsController@store')->middleware('auth');;
+Route::delete('/contact/{contact}', 'ContactsController@destroy')->middleware('auth');;

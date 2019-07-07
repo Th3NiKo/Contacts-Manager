@@ -12,4 +12,9 @@ class Contact extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function profileImage()
+    {
+        return ($this->image) ? '/storage/'.$this->image : '/icons/default.png';
+    }
+
 }

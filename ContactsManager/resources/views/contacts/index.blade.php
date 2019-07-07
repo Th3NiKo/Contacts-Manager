@@ -9,7 +9,7 @@
     <div class="card-columns">
         @foreach ($user->contacts as $contact)
             <div class="card" style="width: 18rem;">
-                    <img class="card-img-top w-100" src="/storage/{{$contact->image}}" alt="Card image cap">
+                    <img class="card-img-top w-100" src="{{$contact->profileImage()}}" alt="Card image cap">
                     <div class="card-body">
                     <h5 class="card-title">{{$contact->name}}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">{{$contact->category}}</h6>
