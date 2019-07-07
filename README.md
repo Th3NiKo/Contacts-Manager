@@ -1,2 +1,3 @@
 # Contacts-Manager
-Site created in Laravel framework which allow to manage contacts.
+Site created in Laravel framework for learning purpose.
+It is possible to show, add, edit and delete contacts.
